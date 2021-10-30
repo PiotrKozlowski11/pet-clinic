@@ -84,6 +84,7 @@
         -->
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
@@ -98,7 +99,18 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M4</version>
+                <configuration>
+                    <goal>install</goal>
+                </configuration>
+            </plugin>
         </plugins>
+
     </build>
 
 </project>
