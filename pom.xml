@@ -111,9 +111,10 @@
         </plugins>
 
     </build>
+
     <scm>
         <developerConnection>scm:git:https://github.com/PiotrKozlowski11/pet-clinic.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>
