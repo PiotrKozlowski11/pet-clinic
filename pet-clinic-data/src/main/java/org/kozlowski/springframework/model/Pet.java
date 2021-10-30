@@ -1,4 +1,4 @@
-package org.kozlowski.springframework.petclinic.model;
+package org.kozlowski.springframework.model;
 
 import java.time.LocalDate;
 

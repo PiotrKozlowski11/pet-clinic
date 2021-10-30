@@ -1,4 +1,4 @@
-package org.kozlowski.springframework.petclinic.model;
+package org.kozlowski.springframework.model;
 
 public class PetType {
 

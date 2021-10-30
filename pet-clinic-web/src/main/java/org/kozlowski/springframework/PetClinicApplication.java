@@ -1,4 +1,4 @@
-package org.kozlowski.springframework.petclinic;
+package org.kozlowski.springframework;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package org.kozlowski.springframework.petclinic;
+package org.kozlowski.springframework;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
