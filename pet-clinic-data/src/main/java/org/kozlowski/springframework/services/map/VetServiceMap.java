@@ -1,11 +1,11 @@
 package org.kozlowski.springframework.services.map;
 
 import org.kozlowski.springframework.model.Vet;
-import org.kozlowski.springframework.services.CrudService;
+import org.kozlowski.springframework.services.VetService;
 
 import java.util.Set;
 
-public class VetServiceMap extends AbstractMapService<Vet, Long> implements CrudService<Vet, Long> {
+public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
     @Override
     public Set<Vet> findAll() {
         return super.findAll();

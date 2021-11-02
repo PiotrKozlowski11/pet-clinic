@@ -1,11 +1,11 @@
 package org.kozlowski.springframework.services.map;
 
 import org.kozlowski.springframework.model.Owner;
-import org.kozlowski.springframework.services.CrudService;
+import org.kozlowski.springframework.services.OwnerService;
 
 import java.util.Set;
 
-public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements CrudService<Owner, Long> {
+public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
     @Override
     public Set<Owner> findAll() {
         return super.findAll();
@@ -33,4 +33,8 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
     }
 
 
+    @Override
+    public Owner findByLastName(String lastName) {
+        return null;
+    }
 }
