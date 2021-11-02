@@ -2,9 +2,11 @@ package org.kozlowski.springframework.services.map;
 
 import org.kozlowski.springframework.model.Owner;
 import org.kozlowski.springframework.services.OwnerService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
     @Override
     public Set<Owner> findAll() {
