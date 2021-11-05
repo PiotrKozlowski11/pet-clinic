@@ -1,13 +1,13 @@
 package org.kozlowski.springframework.services.map;
 
 import org.kozlowski.springframework.model.Speciality;
-import org.kozlowski.springframework.services.SpecialitiesService;
+import org.kozlowski.springframework.services.SpecialityService;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-public class SpecialitiesServiceMap extends AbstractMapService<Speciality, Long> implements SpecialitiesService {
+public class SpecialityServiceMap extends AbstractMapService<Speciality, Long> implements SpecialityService {
     @Override
     public Set<Speciality> findAll() {
         return super.findAll();
