@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
-public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
+public class OwnerMapService extends AbstractMapService<Owner, Long> implements OwnerService {
 
     private final PetTypeService petTypeService;
-    private final PetServiceMap petServiceMap;
+    private final PetMapService petMapService;
 
 
-    public OwnerServiceMap(PetTypeService petTypeService, PetServiceMap petServiceMap) {
+    public OwnerMapService(PetTypeService petTypeService, PetMapService petMapService) {
         this.petTypeService = petTypeService;
-        this.petServiceMap = petServiceMap;
+        this.petMapService = petMapService;
     }
 
 
@@ -48,7 +48,7 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
                         throw new RuntimeException("Pet Type is required");
                     }
                     if (pet.getId() == null) {
-                        Pet savedPet = petServiceMap.save(pet);
+                        Pet savedPet = petMapService.save(pet);
                         pet.setId(savedPet.getId());
                     }
                 });

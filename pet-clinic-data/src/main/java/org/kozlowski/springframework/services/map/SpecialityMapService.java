@@ -1,31 +1,32 @@
 package org.kozlowski.springframework.services.map;
 
-import org.kozlowski.springframework.model.Pet;
-import org.kozlowski.springframework.services.CrudService;
+import org.kozlowski.springframework.model.Speciality;
+import org.kozlowski.springframework.services.SpecialityService;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-public class PetServiceMap extends AbstractMapService<Pet, Long> implements CrudService<Pet, Long> {
+public class SpecialityMapService extends AbstractMapService<Speciality, Long> implements SpecialityService {
     @Override
-    public Set<Pet> findAll() {
+    public Set<Speciality> findAll() {
         return super.findAll();
     }
 
     @Override
-    public Pet findById(Long id) {
+    public Speciality findById(Long id) {
         return super.findById(id);
     }
 
     @Override
-    public Pet save(Pet object) {
+    public Speciality save(Speciality object) {
         return super.save(object);
     }
 
     @Override
-    public void delete(Pet object) {
+    public void delete(Speciality object) {
         super.delete(object);
+
     }
 
     @Override
@@ -33,6 +34,4 @@ public class PetServiceMap extends AbstractMapService<Pet, Long> implements Crud
         super.deleteById(id);
 
     }
-
-
 }
