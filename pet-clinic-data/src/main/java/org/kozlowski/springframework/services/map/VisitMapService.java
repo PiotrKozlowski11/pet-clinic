@@ -2,9 +2,11 @@ package org.kozlowski.springframework.services.map;
 
 import org.kozlowski.springframework.model.Visit;
 import org.kozlowski.springframework.services.VisitService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class VisitMapService extends AbstractMapService<Visit, Long> implements VisitService {
     @Override
     public Set<Visit> findAll() {
