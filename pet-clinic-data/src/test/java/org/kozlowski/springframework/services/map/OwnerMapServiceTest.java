@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kozlowski.springframework.model.Owner;
 
+import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,7 +75,7 @@ class OwnerMapServiceTest {
 
     @Test
     void findByLastName() {
-        Owner smith = ownerMapService.findByLastName(lastName);
+        Owner smith = ownerMapService.findByLastName(lastName.toUpperCase(Locale.ROOT));
 
         assertNotNull(smith);
 
