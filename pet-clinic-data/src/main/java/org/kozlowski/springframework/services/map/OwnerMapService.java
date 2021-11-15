@@ -3,21 +3,24 @@ package org.kozlowski.springframework.services.map;
 import org.kozlowski.springframework.model.Owner;
 import org.kozlowski.springframework.model.Pet;
 import org.kozlowski.springframework.services.OwnerService;
+import org.kozlowski.springframework.services.PetService;
 import org.kozlowski.springframework.services.PetTypeService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
+@Profile({"default","map"})
+public class OwnerMapService extends AbstractMapService<Owner, Long> implements OwnerService {
 
     private final PetTypeService petTypeService;
-    private final PetServiceMap petServiceMap;
+    private final PetService petService;
 
 
-    public OwnerServiceMap(PetTypeService petTypeService, PetServiceMap petServiceMap) {
+    public OwnerMapService(PetTypeService petTypeService, PetService petService) {
         this.petTypeService = petTypeService;
-        this.petServiceMap = petServiceMap;
+        this.petService = petService;
     }
 
 
@@ -48,7 +51,7 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
                         throw new RuntimeException("Pet Type is required");
                     }
                     if (pet.getId() == null) {
-                        Pet savedPet = petServiceMap.save(pet);
+                        Pet savedPet = petService.save(pet);
                         pet.setId(savedPet.getId());
                     }
                 });

@@ -1,13 +1,15 @@
 package org.kozlowski.springframework.services.map;
 
 import org.kozlowski.springframework.model.Pet;
-import org.kozlowski.springframework.services.CrudService;
+import org.kozlowski.springframework.services.PetService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-public class PetServiceMap extends AbstractMapService<Pet, Long> implements CrudService<Pet, Long> {
+@Profile({"default","map"})
+public class PetMapService extends AbstractMapService<Pet, Long> implements PetService {
     @Override
     public Set<Pet> findAll() {
         return super.findAll();
