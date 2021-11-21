@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.kozlowski.springframework.model.Owner;
 import org.kozlowski.springframework.services.OwnerService;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -13,11 +12,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class OwnerControllerTest {
@@ -39,7 +38,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    void listOwners() throws Exception {
+    void testListOwners() throws Exception {
         Owner owner1 = Owner.builder().id(2L).build();
         Owner owner2 = Owner.builder().id(3L).build();
 
@@ -58,8 +57,23 @@ class OwnerControllerTest {
 
     }
 
+
     @Test
-    void findOwners() {
-        fail();
+    void testFindOwners() {
+    }
+
+    @Test
+    void showOwner() throws Exception {
+
+        Owner owner1 = Owner.builder().id(2L).build();
+
+        when(ownerService.findById(anyLong())).thenReturn(owner1);
+
+        mockMvc.perform(get("/owners/2"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownerDetails"))
+                .andExpect(model().attribute("owner", hasProperty("id", is(2L))));
+
+        verify(ownerService, times(1)).findById(anyLong());
     }
 }
