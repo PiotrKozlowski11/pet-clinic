@@ -2,119 +2,64 @@ package org.kozlowski.springframework.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.kozlowski.springframework.model.Owner;
-import org.kozlowski.springframework.repositories.OwnerRepository;
-import org.kozlowski.springframework.repositories.PetRepository;
-import org.kozlowski.springframework.repositories.PetTypeRepository;
-import org.kozlowski.springframework.services.springdatajpa.OwnerSDJPaService;
-import org.mockito.InjectMocks;
+import org.kozlowski.springframework.services.OwnerService;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-@ExtendWith(MockitoExtension.class)
-class OwnerSDJpaServiceTest {
-
-    public static final String LAST_NAME = "Smith";
-    @Mock
-    OwnerRepository ownerRepository;
+class OwnerControllerTest {
 
     @Mock
-    PetRepository petRepository;
+    OwnerService ownerService;
 
-    @Mock
-    PetTypeRepository petTypeRepository;
+    OwnerController controller;
 
-    @InjectMocks
-    OwnerSDJPaService service;
-
-    Owner returnOwner;
+    MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        returnOwner = Owner.builder().id(1L).lastName(LAST_NAME).build();
+        MockitoAnnotations.openMocks(this);
+
+        controller = new OwnerController(ownerService);
+
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
-    void findByLastName() {
-        when(ownerRepository.findByLastName(any())).thenReturn(returnOwner);
+    void listOwners() throws Exception {
+        Owner owner1 = Owner.builder().id(2L).build();
+        Owner owner2 = Owner.builder().id(3L).build();
 
-        Owner smith = service.findByLastName(LAST_NAME);
+        Set<Owner> ownerSet = new HashSet<>();
+        ownerSet.add(owner1);
+        ownerSet.add(owner2);
 
-        assertEquals(LAST_NAME, smith.getLastName());
+        when(ownerService.findAll()).thenReturn(ownerSet);
 
-        verify(ownerRepository).findByLastName(any());
+        mockMvc.perform(get("/owners", "/owners/", "/owners/index", "/owners/index.html"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/index"))
+                .andExpect(model().attributeExists("owners"));
+
+        verify(ownerService, times(1)).findAll();
+
     }
 
     @Test
-    void findAll() {
-        Set<Owner> returnOwnersSet = new HashSet<>();
-        returnOwnersSet.add(Owner.builder().id(1L).build());
-        returnOwnersSet.add(Owner.builder().id(2L).build());
-
-        when(ownerRepository.findAll()).thenReturn(returnOwnersSet);
-
-        Set<Owner> owners = service.findAll();
-
-        assertNotNull(owners);
-        assertEquals(2, owners.size());
-    }
-
-    @Test
-    void findById() {
-        when(ownerRepository.findById(anyLong())).thenReturn(Optional.of(returnOwner));
-
-        Owner owner = service.findById(1L);
-
-        assertNotNull(owner);
-    }
-
-    @Test
-    void findByIdNotFound() {
-        when(ownerRepository.findById(anyLong())).thenReturn(Optional.empty());
-
-        Owner owner = service.findById(1L);
-
-        assertNull(owner);
-    }
-
-
-    @Test
-    void save() {
-        Owner ownerToSave = Owner.builder().id(1L).build();
-
-        when(ownerRepository.save(any())).thenReturn(returnOwner);
-
-        Owner savedOwner = service.save(ownerToSave);
-
-        assertNotNull(savedOwner);
-
-        verify(ownerRepository).save(any());
-    }
-
-    @Test
-    void delete() {
-        service.delete(returnOwner);
-
-        //default is 1 times
-        verify(ownerRepository, times(1)).delete(any());
-    }
-
-    @Test
-    void deleteById() {
-        service.deleteById(1L);
-
-        verify(ownerRepository).deleteById(anyLong());
+    void findOwners() {
+        fail();
     }
 }
