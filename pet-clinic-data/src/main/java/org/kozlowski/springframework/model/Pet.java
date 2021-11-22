@@ -1,6 +1,7 @@
 package org.kozlowski.springframework.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,10 +12,13 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+
 @Entity
 @Table(name = "pets")
 public class Pet extends BaseEntity {
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
 
     private String name;
 
@@ -26,9 +30,29 @@ public class Pet extends BaseEntity {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    private LocalDate birthDate;
+    @Builder
+    public Pet(Long id, String name, PetType petType, Owner owner, LocalDate birthDate, Set<Visit> visits) {
+        super(id);
+        this.name = name;
+        this.petType = petType;
+        this.owner = owner;
+        this.birthDate = birthDate;
+        if (visits != null) {
+            this.visits = visits;
+        }
+
+    }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
     private Set<Visit> visits = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "name='" + name + '\'' +
+                ", petType=" + petType +
+                ", owner=" + owner +
+                ", birthDate=" + birthDate +
+                "} " + super.toString();
+    }
 }

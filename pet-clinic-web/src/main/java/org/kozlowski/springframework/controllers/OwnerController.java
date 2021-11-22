@@ -41,9 +41,7 @@ public class OwnerController {
             owner.setLastName("");
         }
 
-        System.out.println(owner);
         List<Owner> results = ownerService.findAllByLastNameLike("%" + owner.getLastName() + "%");
-        System.out.println(results);
 
 
         if (results.isEmpty()) {
