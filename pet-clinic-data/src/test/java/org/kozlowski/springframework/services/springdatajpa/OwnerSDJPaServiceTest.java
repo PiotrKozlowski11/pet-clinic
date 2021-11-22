@@ -19,10 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class OwnerSDJpaServiceTest {
+class OwnerSDJPaServiceTest {
 
     public static final String LAST_NAME = "Smith";
     @Mock
@@ -115,4 +114,6 @@ class OwnerSDJpaServiceTest {
 
         verify(ownerRepository).deleteById(anyLong());
     }
+
+
 }

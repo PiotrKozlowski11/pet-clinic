@@ -1,12 +1,16 @@
 package org.kozlowski.springframework.controllers;
 
+import org.kozlowski.springframework.model.Owner;
 import org.kozlowski.springframework.services.OwnerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @RequestMapping("owners")
 @Controller
@@ -18,16 +22,52 @@ public class OwnerController {
         this.ownerService = ownerService;
     }
 
-    @RequestMapping({"", "/", "/index", "/index.html"})
-    public String listOwners(Model model) {
-        model.addAttribute("owners", ownerService.findAll());
+//    @RequestMapping({"", "/", "/index", "/index.html"})
+//    public String listOwners(Model model) {
+//        model.addAttribute("owners", ownerService.findAll());
+//
+//        return "owners/index";
+//    }
 
-        return "owners/index";
-    }
+//    @RequestMapping({"", "/", "/index", "/index.html"})
+//    public String listOwners(Model model) {
+//        model.addAttribute("owners", ownerService.findAll());
+//
+//        return "owners/index";
+//    }
 
     @RequestMapping("/find")
-    public String findOwners() {
-        return "notimplemented";
+    public String findOwners(Model model) {
+        model.addAttribute("owner", Owner.builder().build());
+
+
+        return "owners/findOwners";
+    }
+
+    @GetMapping("")
+    public String processFindForm(Owner owner, BindingResult result, Model model) {
+
+        if (owner.getLastName() == null) {
+            owner.setLastName("");
+        }
+
+        System.out.println(owner);
+        List<Owner> results = ownerService.findAllByLastNameLike("%" + owner.getLastName() + "%");
+        System.out.println(results);
+
+
+        if (results.isEmpty()) {
+            result.rejectValue("lastName", "notFound", "not found");
+            return "owners/findOwners";
+        } else if (results.size() == 1) {
+            owner = results.get(0);
+            return "redirect:/owners/" + owner.getId();
+        } else {
+            model.addAttribute("selections", results);
+            return "owners/ownersList";
+        }
+
+
     }
 
     @GetMapping("/{ownerId}")
