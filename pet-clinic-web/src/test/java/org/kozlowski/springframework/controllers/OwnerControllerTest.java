@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -37,25 +38,7 @@ class OwnerControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
-//    @Test
-//    void testListOwners() throws Exception {
-//        Owner owner1 = Owner.builder().id(2L).build();
-//        Owner owner2 = Owner.builder().id(3L).build();
-//
-//        Set<Owner> ownerSet = new HashSet<>();
-//        ownerSet.add(owner1);
-//        ownerSet.add(owner2);
-//
-//        when(ownerService.findAll()).thenReturn(ownerSet);
-//
-//        mockMvc.perform(get("/owners", "/owners/", "/owners/index", "/owners/index.html"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("owners/index"))
-//                .andExpect(model().attributeExists("owners"));
-//
-//        verify(ownerService, times(1)).findAll();
-//
-//    }
+
 
 
     @Test
@@ -95,14 +78,30 @@ class OwnerControllerTest {
     @Test
     void processFindFormReturnMany() throws Exception {
 
-        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(List.of(
-                Owner.builder().id(2L).build(),
-                Owner.builder().id(3L).build()));
+        when(ownerService.findAllByLastNameLike(anyString()))
+                .thenReturn(List.of(
+                        Owner.builder().id(2L).build(),
+                        Owner.builder().id(3L).build()));
 
         mockMvc.perform(get("/owners"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("owners/ownersList"))
                 .andExpect(model().attribute("selections", hasSize(2)));
+    }
+
+    @Test
+    void processFindFormEmptyReturnMany() throws Exception {
+        when(ownerService.findAllByLastNameLike(anyString()))
+                .thenReturn(Arrays.asList(
+                        Owner.builder().id(1L).build(),
+                        Owner.builder().id(2L).build()));
+
+        mockMvc.perform(get("/owners")
+                        .param("lastName", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownersList"))
+                .andExpect(model().attribute("selections", hasSize(2)));
+        
     }
 
     @Test
